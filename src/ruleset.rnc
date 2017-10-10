@@ -3,7 +3,6 @@
 # RelaxNG Schema für Kitido.Production Regelsatz
 #
 # Author: David Maus <maus@hab.de>
-# Timestamp: <2017-10-10 15:16:42 maus>
 #
 
 namespace s = "http://purl.oclc.org/dsdl/schematron"

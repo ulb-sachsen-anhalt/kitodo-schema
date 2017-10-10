@@ -1,0 +1,5 @@
+*.xsd
+*.rng
+*.sch
+/test/*-compiled.xspec
+/test/xspec

@@ -1,0 +1,78 @@
+# -*- mode: rnc; -*-
+#
+# RelaxNG Schema für Kitido.Production Regelsatz
+#
+# Author: David Maus <maus@hab.de>
+# Timestamp: <2017-10-10 15:16:42 maus>
+#
+
+namespace s = "http://purl.oclc.org/dsdl/schematron"
+
+start = Preferences
+
+Preferences =
+   element Preferences {
+      element debug { "0" | "1" }?,
+      MetadataTypeDef*
+   }
+
+MetadataTypeDef =
+   element Metadata {
+      attribute type { "person" | "identifier" }?,
+      (
+         Name
+       & NameTranslation*
+      )
+   }
+
+Name =
+   ## Interner Name des Metadaten- oder Strukturtyps. Der Name wird zur Referenzierung benutzt und muss daher dokumentweit eindeutig sein.
+   element Name { xsd:NMTOKEN }
+
+NameTranslation =
+   ## Übersetzung eines Namens in die über das Attribut @name spezifizierte Sprache.
+   element language {
+      attribute name { xsd:language },
+      text
+   }
+
+StructTypeDef =
+   element DocStrctType {
+      attribute anchor { "true" }?
+    & Name
+    & NameTranslation
+    & AllowedChildStruct*
+    & AllowedMetadata*
+   }
+
+AllowedChildStruct =
+   [
+      s:pattern [
+         s:rule [
+            context = "allowedchildtype" s:assert [
+               test = "/Preferences/DocStrctType[Name = .]"
+               "Der Strukturtyp '" s:value-of [ select = "." ] "' muss definiert werden."
+            ]
+         ]
+      ]
+   ]
+   element allowedchildtype {
+      xsd:NMTOKEN
+   }
+
+AllowedMetadata =
+   [
+      s:pattern [
+         s:rule [
+            context = "metadata[parent::DocStrctType]" s:assert [
+               test = "/Preferences/MetadataType[Name = .]"
+               "Das Metadatum '" s:value-of [ select = "." ] "' muss definiert werden."
+            ]
+         ]
+      ]
+   ]
+   element metadata {
+      attribute num { "*" | "+" | "1o" | "1m" }?,
+      attribute DefaultDisplay { text }?,
+      xsd:NMTOKEN
+   }

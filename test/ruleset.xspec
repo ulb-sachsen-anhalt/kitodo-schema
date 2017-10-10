@@ -1,0 +1,27 @@
+<description xmlns="http://www.jenitennison.com/xslt/xspec" schematron="../src/ruleset.sch">
+  <scenario label="Definition der Strukturtypen">
+    <scenario label="Untergeordneter Strukturtyp ist definiert">
+      <context>
+        <Preferences xmlns="">
+          <DocStrctType>
+            <Name>is-defined</Name>
+          </DocStrctType>
+          <DocStrctType>
+            <allowedchildtype>is-defined</allowedchildtype>
+          </DocStrctType>
+        </Preferences>
+      </context>
+      <expect-assert/>
+    </scenario>
+    <scenario label="Untergeordneter Strukturtyp ist nicht definiert">
+      <context>
+        <Preferences xmlns="">
+          <DocStrctType>
+            <allowedchildtype>is-not-defined</allowedchildtype>
+          </DocStrctType>
+        </Preferences>
+      </context>
+      <expect-assert/>
+    </scenario>
+  </scenario>
+</description>

@@ -12,7 +12,8 @@ start = Preferences
 Preferences =
    element Preferences {
       element debug { "0" | "1" }?,
-      MetadataTypeDef*
+      MetadataTypeDef*,
+      ImportExportDef
    }
 
 MetadataTypeDef =
@@ -75,3 +76,75 @@ AllowedMetadata =
       attribute DefaultDisplay { text }?,
       xsd:NMTOKEN
    }
+
+ImportExportDef =
+   element Formats {
+      PicaImport?
+   }
+
+PicaImport =
+   element PicaPlus {
+      ( PicaPlusImportMetadata | PicaPlusImportDocStruct | PicaPlusImportPerson )*
+   }
+
+PicaPlusImportMetadata =
+   [
+      s:pattern [
+         s:rule [
+            context = "Metadata[parent::PicaPlus]" s:assert [
+               test = "/Preferences/MetadataType/Name = current()/Name"
+               "Das Metadatum '" s:value-of [ select = "Name" ] "' muss definiert werden."
+            ]
+         ]
+      ]
+   ]
+   element Metadata {
+      PicaPlusImportMappingElements
+   }
+
+PicaPlusImportPerson =
+   [
+      s:pattern [
+         s:rule [
+            context = "Person[parent::PicaPlus]" s:assert [
+               test = "/Preferences/MetadataType/Name = current()/Name"
+               "Das Metadatum '" s:value-of [ select = "Name" ] "' muss definiert werden."
+            ]
+         ]
+         s:rule [
+            context = "Person[parent::PicaPlus]" s:assert [
+               test = "/Preferences/MetadataType[Name = current()/Name]/@type = 'person'"
+               "Das Metadatum '" s:value-of [ select = "Name" ] "' muss als Person gekennzeichnet sein."
+            ]
+         ]
+      ]
+   ]
+   element Person {
+      PicaPlusImportMappingElements
+   }
+
+PicaPlusImportDocStruct =
+   [
+      s:pattern [
+         s:rule [
+            context = "DocStruct[parent::PicaPlus]" s:assert [
+               test = "/Preferences/DocStrctType/Name = current()/Name"
+               "Der Strukturtyp '" s:value-of [ select = "Name" ] "' muss definiert werden."
+            ]
+         ]
+      ]
+   ]
+   element DocStruct {
+      PicaPlusImportMappingElements
+    & element picaContent { text }
+   }
+
+PicaPlusImportMappingElements =
+   element picaMainTag { text }
+ & element picaSubTag {
+    attribute type { "firstname" | "lastname" | "identifier" | "expansion" }?
+  & text
+ }*
+ & element valueCondition { text }?
+ & element valueRegExp { text }?
+ & Name

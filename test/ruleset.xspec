@@ -47,4 +47,102 @@
       <expect-assert/>
     </scenario>
   </scenario>
+  <scenario label="Import von Pica+">
+    <scenario label="Metadatum ist definiert">
+      <context>
+        <Preferences xmlns="">
+          <MetadataType>
+            <Name>is-defined</Name>
+          </MetadataType>
+          <PicaPlus>
+            <Metadata>
+              <Name>is-defined</Name>
+            </Metadata>
+          </PicaPlus>
+        </Preferences>
+      </context>
+      <expect-not-assert/>
+    </scenario>
+    <scenario label="Metadatum ist nicht definiert">
+      <context>
+        <Preferences xmlns="">
+          <PicaPlus>
+            <Metadata>
+              <Name>is-not-defined</Name>
+            </Metadata>
+          </PicaPlus>
+        </Preferences>
+      </context>
+      <expect-assert/>
+    </scenario>
+    <scenario label="Person ist definiert">
+      <context>
+        <Preferences xmlns="">
+          <MetadataType type="person">
+            <Name>is-defined</Name>
+          </MetadataType>
+          <PicaPlus>
+            <Person>
+              <Name>is-defined</Name>
+            </Person>
+          </PicaPlus>
+        </Preferences>
+      </context>
+      <expect-not-assert/>
+    </scenario>
+    <scenario label="Person ist nicht definiert">
+      <context>
+        <Preferences xmlns="">
+          <PicaPlus>
+            <Person>
+              <Name>is-not-defined</Name>
+            </Person>
+          </PicaPlus>
+        </Preferences>
+      </context>
+      <expect-assert/>
+    </scenario>
+    <scenario label="Metadatum ist definiert aber keine Person">
+      <context>
+        <Preferences xmlns="">
+          <MetadataType>
+            <Name>is-defined</Name>
+          </MetadataType>
+          <PicaPlus>
+            <Person>
+              <Name>is-not-defined</Name>
+            </Person>
+          </PicaPlus>
+        </Preferences>
+      </context>
+      <expect-assert/>
+    </scenario>
+    <scenario label="Strukturtyp ist definiert">
+      <context>
+        <Preferences xmlns="">
+          <DocStrctType>
+            <Name>is-defined</Name>
+          </DocStrctType>
+          <PicaPlus>
+            <DocStruct>
+              <Name>is-defined</Name>
+            </DocStruct>
+          </PicaPlus>
+        </Preferences>
+      </context>
+      <expect-not-assert/>
+    </scenario>
+    <scenario label="Strukturtyp ist nicht definiert">
+      <context>
+        <Preferences xmlns="">
+          <PicaPlus>
+            <DocStruct>
+              <Name>is-not-defined</Name>
+            </DocStruct>
+          </PicaPlus>
+        </Preferences>
+      </context>
+      <expect-assert/>
+    </scenario>
+  </scenario>
 </description>

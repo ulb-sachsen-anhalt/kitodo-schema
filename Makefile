@@ -19,7 +19,7 @@ clean:
 	rm -f src/*.rng
 	rm -f src/*.sch
 
-test: src/ruleset.sch
+test: src/ruleset.sch test/ruleset.xspec
 	$(XSPEC) -s test/ruleset.xspec
 
 

@@ -50,7 +50,7 @@ AllowedChildStruct =
       s:pattern [
          s:rule [
             context = "allowedchildtype" s:assert [
-               test = "/Preferences/DocStrctType[Name = .]"
+               test = "/Preferences/DocStrctType/Name = ."
                "Der Strukturtyp '" s:value-of [ select = "." ] "' muss definiert werden."
             ]
          ]
@@ -65,7 +65,7 @@ AllowedMetadata =
       s:pattern [
          s:rule [
             context = "metadata[parent::DocStrctType]" s:assert [
-               test = "/Preferences/MetadataType[Name = .]"
+               test = "/Preferences/MetadataType/Name = ."
                "Das Metadatum '" s:value-of [ select = "." ] "' muss definiert werden."
             ]
          ]

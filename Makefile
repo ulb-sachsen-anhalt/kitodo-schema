@@ -11,6 +11,8 @@ SAXON = java -jar lib/saxon9he.jar
 %.sch: %.rng
 	$(SAXON) -xsl:lib/rngsch.xsl -o:$@ $<
 
+all: src/ruleset.xsd src/ruleset.rng src/ruleset.sch test
+
 .PHONY: clean
 clean:
 	rm -f src/*.xsd
@@ -20,4 +22,4 @@ clean:
 test: src/ruleset.sch
 	$(XSPEC) -s test/ruleset.xspec
 
-all: src/ruleset.xsd src/ruleset.rng src/ruleset.sch test
+

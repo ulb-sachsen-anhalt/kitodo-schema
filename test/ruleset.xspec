@@ -11,13 +11,36 @@
           </DocStrctType>
         </Preferences>
       </context>
-      <expect-assert/>
+      <expect-not-assert/>
     </scenario>
     <scenario label="Untergeordneter Strukturtyp ist nicht definiert">
       <context>
         <Preferences xmlns="">
           <DocStrctType>
             <allowedchildtype>is-not-defined</allowedchildtype>
+          </DocStrctType>
+        </Preferences>
+      </context>
+      <expect-assert/>
+    </scenario>
+    <scenario label="Metadatum ist definiert">
+      <context>
+        <Preferences xmlns="">
+          <MetadataType>
+            <Name>is-defined</Name>
+          </MetadataType>
+          <DocStrctType>
+            <metadata>is-defined</metadata>
+          </DocStrctType>
+        </Preferences>
+      </context>
+      <expect-not-assert/>
+    </scenario>
+    <scenario label="Metadatum ist nicht definiert">
+      <context>
+        <Preferences xmlns="">
+          <DocStrctType>
+            <metadata>is-not-defined</metadata>
           </DocStrctType>
         </Preferences>
       </context>

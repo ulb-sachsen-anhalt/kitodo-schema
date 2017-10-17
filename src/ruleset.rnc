@@ -41,7 +41,7 @@ StructTypeDef =
    element DocStrctType {
       attribute anchor { "true" }?
     & Name
-    & NameTranslation
+    & NameTranslation*
     & AllowedChildStruct*
     & AllowedMetadata*
    }

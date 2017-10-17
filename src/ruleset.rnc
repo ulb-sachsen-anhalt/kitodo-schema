@@ -80,7 +80,8 @@ AllowedMetadata =
 
 ImportExportDef =
    element Formats {
-      PicaImport?
+      PicaImport?,
+      MetsModsSerialization?
    }
 
 PicaImport =
@@ -149,3 +150,74 @@ PicaPlusImportMappingElements =
  & element valueCondition { text }?
  & element valueRegExp { text }?
  & Name
+
+MetsModsSerialization =
+   element METS {
+      MetsModsSerializationClass
+    & MetsModsSerializationNamespace*
+    & MetsModsSerializationAnchorQuery
+    & MetsModsSerializationAnchorIdentifierMetadataType
+    & MetsModsSerializationValueRegExp
+    & MetsModsSerializationMetadataMapping+
+    & MetsModsSerializationDocStructMapping+
+   }
+
+MetsModsSerializationClass =
+   element class { "ugh.fileformats.mets.MetsModsImportExport" }
+
+MetsModsSerializationNamespace =
+   element NamespaceDefinition {
+      element URI { xsd:anyURI },
+      element prefix { xsd:NMTOKEN }
+   }
+
+MetsModsSerializationAnchorQuery =
+   element XPathAnchorQuery { text }
+
+MetsModsSerializationAnchorIdentifierMetadataType =
+   [
+      s:pattern [
+         s:rule [
+            context = "AnchorIdentifierMetadataType[parent::METS]" s:assert [
+               test = "/Preferences/MetadataType/Name = ."
+               "Das Metadatum '" s:value-of [ select = "." ] "' muss definiert werden."
+            ]
+         ]
+      ]
+   ]
+   element AnchorIdentifierMetadataType { xsd:NMTOKEN }
+
+MetsModsSerializationValueRegExp =
+   element ValueRegExp { text }
+
+MetsModsSerializationMetadataMapping =
+   element metadata {
+      MetsModsSerializationInternalName
+    & element WriteXPath { WriteXPathContent }
+    & element FirstnameXPath { WriteXPathContent }
+    & element DisplayNameXPath { WriteXPathContent }
+    & element IdentifierXPath { WriteXPathContent }
+    & element ValueRegExp { text }
+    & element ValueCondition { text }
+   }
+
+WriteXPathContent = text
+
+MetsModsSerializationInternalName =
+   [
+      s:pattern [
+         s:rule [
+            context = "InternalName[ancestor::Formats/METS]" s:assert [
+               test = "/Preferences/MetadataType/Name = ."
+               "Das Metadatum '" s:value-of [ select = "." ] "' muss definiert werden."
+            ]
+         ]
+      ]
+   ]
+   element InternalName { xsd:NMTOKEN }
+
+MetsModsSerializationDocStructMapping =
+   element DocStruct {
+      MetsModsSerializationInternalName
+    & element MetsType { xsd:NMTOKEN }
+   }

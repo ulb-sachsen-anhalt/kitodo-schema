@@ -1,0 +1,124 @@
+# -*- mode: rnc; -*-
+#
+# RelaxNG Schema für Kitido.Production Projektkonfiguration
+#
+#
+# Author: David Maus <maus@hab.de>
+#
+
+namespace s = "http://purl.oclc.org/dsdl/schematron"
+
+start = goobiProjects
+
+goobiProjects =
+   element goobiProjects {
+      project+
+   }
+
+project =
+   element project {
+      attribute name { text }
+    & createNewProcess
+    & tifheader
+    & dmsImport
+   }
+
+createNewProcess =
+   element createNewProcess {
+      itemlist
+    & opac
+    & templates
+    & defaultdoctype
+    & metadatageneration
+   }
+
+opac =
+   element opac {
+      attribute use { xsd:boolean }
+    & element catalogue {
+       text
+    }+
+   }
+
+templates =
+   element templates {
+      attribute use { xsd:boolean }
+    & empty
+   }
+
+defaultdoctype =
+   element defaultdoctype {
+      text
+   }
+
+metadatageneration =
+   element metadatageneration {
+      attribute use { xsd:boolean }
+    & empty
+   }
+
+itemlist =
+   element itemlist {
+      item+
+    & hide
+    & processtitle+
+   }
+
+item =
+   ( selectItem | textItem )
+
+selectItem =
+   element item {
+      baseItemAttrs,
+      attribute multiselect { xsd:boolean },
+      text,
+      select+
+   }
+
+textItem =
+   element item {
+      baseItemAttrs,
+      text
+   }
+
+baseItemAttrs =
+   attribute from { "vorlage" | "werk" },
+   attribute required { xsd:boolean }?,
+   attribute isdoctype { text }?,
+   attribute isnotdoctype { text }?,
+   StructTypeMappingAttrs?
+
+select =
+   element select {
+      attribute label { text },
+      text
+   }
+
+processtitle =
+   element processtitle {
+      attribute isdoctype { text },
+      text
+   }
+
+hide =
+   element hide {
+      empty
+   }
+
+StructTypeMappingAttrs =
+   attribute ughbinding { xsd:boolean }?,
+   attribute docstruct { xsd:NMTOKEN },
+   attribute metadata { xsd:NMTOKEN }
+
+tifheader =
+   element tifheader {
+      element monograph { text }
+    & element multivolume { text }
+    & element periodical { text }
+    & empty
+   }
+
+dmsImport =
+   element dmsImport {
+      empty
+   }

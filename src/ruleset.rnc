@@ -13,6 +13,7 @@ Preferences =
    element Preferences {
       element debug { "0" | "1" }?,
       MetadataTypeDef*,
+      StructTypeDef*,
       ImportExportDef
    }
 

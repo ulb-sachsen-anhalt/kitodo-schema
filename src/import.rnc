@@ -23,7 +23,6 @@ doctypes =
 
 catalogue =
    element catalogue {
-      ## Der Wert des Attributs wird als Wert (@value) für den DocType im Formular der Vorgangsdaten verwendet.
       attribute title { text }
     & config
     & searchFields
@@ -73,7 +72,7 @@ type =
     & attribute isNewspaper { xsd:boolean }
     & attribute rulesetType { xsd:NMTOKEN }
     & attribute tifHeaderType { text }
-    & attribute title { text }
+    & attribute title { text } # Der Wert des Attributs wird als Wert (@value) für den DocType im Formular der Vorgangsdaten verwendet.
     & label*
     & mapping+
    }

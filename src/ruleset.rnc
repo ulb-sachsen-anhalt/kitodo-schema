@@ -18,7 +18,7 @@ Preferences =
    }
 
 MetadataTypeDef =
-   element Metadata {
+   element MetadataType {
       attribute type { "person" | "identifier" }?,
       (
          Name

@@ -11,13 +11,15 @@ SAXON = java -jar lib/saxon9he.jar
 %.sch: %.rng
 	$(SAXON) -xsl:lib/rngsch.xsl -o:$@ $<
 
-all: ruleset import projects test
+all: ruleset import projects properties test
 
 import: src/import.xsd src/import.rng
 
 ruleset: src/ruleset.xsd src/ruleset.rng src/ruleset.sch
 
 projects: src/projects.xsd src/projects.rng
+
+properties: src/properties.xsd src/properties.rng
 
 .PHONY: clean
 clean:

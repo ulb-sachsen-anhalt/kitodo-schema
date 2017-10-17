@@ -1,0 +1,67 @@
+# -*- mode: rnc; -*-
+#
+# RelaxNG Schema für Kitido.Production Prozesseigenschaften
+#
+# Author: David Maus <maus@hab.de>
+#
+
+start = processProperties
+
+processProperties =
+   element config_processProperties {
+      Property+
+   }
+
+Property =
+   element property {
+      attribute name { text }
+    & attribute container { "0" }
+    & Project+
+    & Step+
+    & ProcessGroup
+    & ValidationRegExpr?
+    & Type
+    & DefaultValue
+    & Value*
+   }
+
+Project =
+   element project {
+      text
+   }
+
+Step =
+   element showStep {
+      attribute name { text }
+    & AccessAttr
+    & empty
+   }
+
+ProcessGroup =
+   element showProcessGroup {
+      AccessAttr
+    & empty
+   }
+
+AccessAttr =
+   attribute access { "read" | "write" | "writeRequired" }
+
+ValidationRegExpr =
+   element validation {
+      text
+   }
+
+Type =
+   element type {
+      "text" | "list" | "listmultiselect" | "boolean" | "date" | "number" | "link"
+   }
+
+DefaultValue =
+   element defaultvalue {
+      text
+   }
+
+Value =
+   element value {
+      text
+   }

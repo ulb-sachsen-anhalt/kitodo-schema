@@ -23,6 +23,7 @@ doctypes =
 
 catalogue =
    element catalogue {
+      ## Der Wert des Attributs wird als Wert (@value) für den DocType im Formular der Vorgangsdaten verwendet.
       attribute title { text }
     & config
     & searchFields

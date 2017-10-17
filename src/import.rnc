@@ -1,0 +1,89 @@
+# -*- mode: rnc; -*-
+#
+# RelaxNG Schema für Kitido.Production Importkonfiguration
+#
+
+# Author: David Maus <maus@hab.de>
+#
+
+namespace s = "http://purl.oclc.org/dsdl/schematron"
+
+start = opacCatalogues
+
+opacCatalogues =
+   element opacCatalogues {
+      doctypes
+    & catalogue+
+   }
+
+doctypes =
+   element doctypes {
+      type+
+   }
+
+catalogue =
+   element catalogue {
+      attribute title { text }
+    & config
+    & searchFields
+    & resolve*
+   }
+
+config =
+   element config {
+      attribute address { text }
+    & attribute database { text }
+    & attribute description { text }
+    & attribute port { xsd:integer }
+    & attribute ucnf { text }?
+    & empty
+   }
+
+searchFields =
+   element searchFields {
+      searchField+
+   }
+
+searchField =
+   element searchField {
+      attribute label { text }
+    & attribute value { xsd:integer }
+   }
+
+resolve =
+   element resolve {
+      attribute tag { text }
+    & attribute subtag { text }
+    & map
+   }
+
+map =
+   element map {
+      attribute tag { text },
+      attribute subtag { text },
+      attribute asSubtag { text }
+   }
+
+type =
+   element type {
+      attribute isContainedWork { xsd:boolean }
+    & attribute isMultiVolume { xsd:boolean }
+    & attribute isPeriodical { xsd:boolean }
+    & attribute isNewspaper { xsd:boolean }
+    & attribute rulesetType { xsd:NMTOKEN }
+    & attribute tifHeaderType { text }
+    & attribute title { text }
+    & label*
+    & mapping+
+   }
+
+label =
+   element label {
+      attribute language { xsd:language },
+      text
+   }
+
+mapping =
+   element mapping {
+      text
+   }

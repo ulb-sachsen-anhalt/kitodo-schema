@@ -155,9 +155,9 @@ MetsModsSerialization =
    element METS {
       MetsModsSerializationClass
     & MetsModsSerializationNamespace*
-    & MetsModsSerializationAnchorQuery
-    & MetsModsSerializationAnchorIdentifierMetadataType
-    & MetsModsSerializationValueRegExp
+    & MetsModsSerializationAnchorQuery?
+    & MetsModsSerializationAnchorIdentifierMetadataType?
+    & MetsModsSerializationValueRegExp?
     & MetsModsSerializationMetadataMapping+
     & MetsModsSerializationDocStructMapping+
    }

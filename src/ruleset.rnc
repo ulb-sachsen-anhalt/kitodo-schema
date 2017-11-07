@@ -153,12 +153,12 @@ PicaPlusImportMappingElements =
 
 MetsModsSerialization =
    element METS {
-      MetsModsSerializationClass
+      MetsModsSerializationClass?
     & MetsModsSerializationNamespace*
     & MetsModsSerializationAnchorQuery?
     & MetsModsSerializationAnchorIdentifierMetadataType?
     & MetsModsSerializationValueRegExp?
-    & MetsModsSerializationMetadataMapping+
+    & MetsModsSerializationMetadataMapping*
     & MetsModsSerializationDocStructMapping+
    }
 

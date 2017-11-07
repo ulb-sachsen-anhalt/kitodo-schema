@@ -212,8 +212,8 @@ MetsModsSerializationInternalName =
       s:pattern [
          s:rule [
             context = "InternalName[ancestor::Formats/METS]" s:assert [
-               test = "/Preferences/MetadataType/Name = ."
-               "Das Metadatum '" s:value-of [ select = "." ] "' muss definiert werden."
+               test = "/Preferences/DocStrctType/Name = ."
+               "Der Strukturtyp '" s:value-of [ select = "." ] "' muss definiert werden."
             ]
          ]
       ]

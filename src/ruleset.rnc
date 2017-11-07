@@ -191,7 +191,7 @@ MetsModsSerializationValueRegExp =
    element ValueRegExp { text }
 
 MetsModsSerializationMetadataMapping =
-   element metadata {
+   element Metadata {
       MetsModsSerializationInternalName
     & MetsModsSerializationPersonIndicator?
     & element WriteXPath { WriteXPathContent }

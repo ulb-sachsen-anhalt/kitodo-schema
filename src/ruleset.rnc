@@ -18,6 +18,16 @@ Preferences =
    }
 
 MetadataTypeDef =
+   [
+      s:pattern [
+         s:rule [
+            context = "metadata[parent::DocStrctType]" s:assert [
+               test = "/Preferences/METS/Metadata/InternalName = ."
+               "Das Metadatum '" s:value-of [ select = "." ] "' wird nicht exportiert."
+            ]
+         ]
+      ]
+   ]
    element MetadataType {
       attribute type { "person" | "identifier" }?,
       (

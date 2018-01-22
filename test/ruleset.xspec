@@ -32,6 +32,11 @@
           <DocStrctType>
             <metadata>is-defined</metadata>
           </DocStrctType>
+          <METS>
+            <Metadata>
+              <InternalName>is-defined</InternalName>
+            </Metadata>
+          </METS>
         </Preferences>
       </context>
       <expect-not-assert/>
@@ -39,6 +44,24 @@
     <scenario label="Metadatum ist nicht definiert">
       <context>
         <Preferences xmlns="">
+          <DocStrctType>
+            <metadata>is-not-defined</metadata>
+          </DocStrctType>
+          <METS>
+            <Metadata>
+              <InternalName>is-defined</InternalName>
+            </Metadata>
+          </METS>
+        </Preferences>
+      </context>
+      <expect-assert/>
+    </scenario>
+    <scenario label="Metadatum wird nicht exportiert">
+      <context>
+        <Preferences xmlns="">
+          <MetadataType>
+            <Name>is-defined</Name>
+          </MetadataType>
           <DocStrctType>
             <metadata>is-not-defined</metadata>
           </DocStrctType>

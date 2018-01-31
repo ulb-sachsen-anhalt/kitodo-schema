@@ -12,7 +12,7 @@
 
   <xsl:template match="Preferences">
     <rdf:RDF>
-      <skos:ConceptSchema rdf:about="{$baseUri}">
+      <skos:ConceptScheme rdf:about="{$baseUri}">
         <skos:prefLabel xml:lang="de">Strukturelemente der Digitalen Bibliothek</skos:prefLabel>
         <dct:publisher>
           <foaf:Organization rdf:about="http://uri.hab.de/instance/organization/habwf">
@@ -27,7 +27,7 @@
         </dct:license>
         <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2018-01-31</dct:modified>
         <dct:created rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2018-01-31</dct:created>
-      </skos:ConceptSchema>
+      </skos:ConceptScheme>
       <xsl:apply-templates select="DocStrctType"/>
       <xsl:apply-templates select="MetadataType"/>
     </rdf:RDF>
@@ -36,14 +36,14 @@
   <xsl:template match="DocStrctType">
     <skos:Concept rdf:about="{$baseUri}#{Name}">
       <skos:prefLabel xml:lang="de"><xsl:value-of select="language[@name = 'de']"/></skos:prefLabel>
-      <skos:inSchema rdf:resource="{$baseUri}"/>
+      <skos:inScheme rdf:resource="{$baseUri}"/>
     </skos:Concept>
   </xsl:template>
 
   <xsl:template match="MetadataType">
     <skos:Concept rdf:about="{$baseUri}#{Name}">
       <skos:prefLabel xml:lang="de"><xsl:value-of select="language[@name = 'de']"/></skos:prefLabel>
-      <skos:inSchema rdf:resource="{$baseUri}"/>
+      <skos:inScheme rdf:resource="{$baseUri}"/>
     </skos:Concept>
   </xsl:template>
 

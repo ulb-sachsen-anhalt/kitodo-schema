@@ -83,7 +83,7 @@ AllowedMetadata =
       ]
    ]
    element metadata {
-      attribute num { "*" | "+" | "1o" | "1m" }?,
+      attribute num { "*" | "+" | "1o" | "1m" },
       attribute DefaultDisplay { text }?,
       xsd:NMTOKEN
    }

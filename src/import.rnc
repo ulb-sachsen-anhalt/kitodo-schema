@@ -3,7 +3,7 @@
 # RelaxNG Schema für Kitido.Production Importkonfiguration
 #
 
-# Author: David Maus <maus@hab.de>
+# Author: David Maus <maus@hab.de>, Christian Schmiljun <christian.schmiljun@bibliothek.uni-halle.de>
 #
 
 namespace s = "http://purl.oclc.org/dsdl/schematron"
@@ -27,6 +27,7 @@ catalogue =
     & config
     & searchFields
     & resolve*
+    & beautify?
    }
 
 config =
@@ -54,7 +55,7 @@ resolve =
    element resolve {
       attribute tag { text }
     & attribute subtag { text }
-    & map
+    & map+
    }
 
 map =
@@ -63,6 +64,29 @@ map =
       attribute subtag { text },
       attribute asSubtag { text }
    }
+   
+beautify = 
+    element beautify {
+        setvalue*
+    }
+    
+setvalue = 
+    element setvalue {
+        attribute tag { text },
+        attribute subtag { text },
+        attribute value { text },
+        attribute mode { "append" | "replace" | "prepend"},
+        attribute modeextended { "occurence" }?,
+        condition+
+    }
+
+condition = 
+    element condition {
+        attribute tag { text },
+        attribute subtag { text },
+        attribute value { text },
+        attribute mode { "matches" | "find" }
+    }
 
 type =
    element type {

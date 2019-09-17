@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  -*- mode: rnc; -*-
+  
+  RelaxNG Schema für Kitido.Production Importkonfiguration
+  
+-->
+<!--
+  Author: David Maus <maus@hab.de>, Christian Schmiljun <christian.schmiljun@bibliothek.uni-halle.de>
+  
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="opacCatalogues">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="doctypes"/>
+        <xs:element ref="catalogue"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="doctypes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="type"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="catalogue">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="config"/>
+        <xs:element ref="searchFields"/>
+        <xs:element ref="resolve"/>
+        <xs:element ref="beautify"/>
+      </xs:choice>
+      <xs:attribute name="title" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="config">
+    <xs:complexType>
+      <xs:attribute name="address" use="required"/>
+      <xs:attribute name="database" use="required"/>
+      <xs:attribute name="description" use="required"/>
+      <xs:attribute name="port" use="required" type="xs:integer"/>
+      <xs:attribute name="ucnf"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="searchFields">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="searchField"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="searchField">
+    <xs:complexType>
+      <xs:attribute name="label" use="required"/>
+      <xs:attribute name="value" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="resolve">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="map"/>
+      </xs:sequence>
+      <xs:attribute name="tag" use="required"/>
+      <xs:attribute name="subtag" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="map">
+    <xs:complexType>
+      <xs:attribute name="tag" use="required"/>
+      <xs:attribute name="subtag" use="required"/>
+      <xs:attribute name="asSubtag" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="beautify">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="setvalue"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="setvalue">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="condition"/>
+      </xs:sequence>
+      <xs:attribute name="tag" use="required"/>
+      <xs:attribute name="subtag" use="required"/>
+      <xs:attribute name="value" use="required"/>
+      <xs:attribute name="mode" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="append"/>
+            <xs:enumeration value="replace"/>
+            <xs:enumeration value="prepend"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="modeextended">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="occurence"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="condition">
+    <xs:complexType>
+      <xs:attribute name="tag" use="required"/>
+      <xs:attribute name="subtag" use="required"/>
+      <xs:attribute name="value" use="required"/>
+      <xs:attribute name="mode" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="matches"/>
+            <xs:enumeration value="find"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="type">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="label"/>
+        <xs:element ref="mapping"/>
+      </xs:choice>
+      <xs:attribute name="isContainedWork" use="required" type="xs:boolean"/>
+      <xs:attribute name="isMultiVolume" use="required" type="xs:boolean"/>
+      <xs:attribute name="isPeriodical" use="required" type="xs:boolean"/>
+      <xs:attribute name="isNewspaper" use="required" type="xs:boolean"/>
+      <xs:attribute name="rulesetType" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="tifHeaderType" use="required"/>
+      <xs:attribute name="title" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="label">
+    <xs:complexType mixed="true">
+      <xs:attribute name="language" use="required" type="xs:language"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mapping" type="xs:string"/>
+</xs:schema>

@@ -65,21 +65,17 @@ itemlist =
    }
 
 item =
-   ( selectItem | textItem )
-
-selectItem =
-   element item {
+    element item {
       baseItemAttrs,
-      attribute multiselect { xsd:boolean },
-      text,
-      select+
-   }
+      (
+        (   attribute multiselect { xsd:boolean },
+            text,            
+            select+
+        ) | text
+        )
+    }   
 
-textItem =
-   element item {
-      baseItemAttrs,
-      text
-   }
+
 
 baseItemAttrs =
    attribute from { "vorlage" | "werk" },
@@ -115,6 +111,7 @@ tifheader =
       element monograph { text }
     & element multivolume { text }
     & element periodical { text }
+    & element newspaper { text }
     & empty
    }
 

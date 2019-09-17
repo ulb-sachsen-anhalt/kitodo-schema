@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  -*- mode: rnc; -*-
+  
+  RelaxNG Schema für Kitido.Production Projektkonfiguration
+  
+  
+  Author: David Maus <maus@hab.de>
+  
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="goobiProjects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="project"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="project">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="createNewProcess"/>
+        <xs:element ref="tifheader"/>
+        <xs:element ref="dmsImport"/>
+      </xs:choice>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="createNewProcess">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="itemlist"/>
+        <xs:element ref="opac"/>
+        <xs:element ref="templates"/>
+        <xs:element ref="defaultdoctype"/>
+        <xs:element ref="metadatageneration"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="opac">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="catalogue"/>
+      </xs:sequence>
+      <xs:attribute name="use" use="required" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="catalogue" type="xs:string"/>
+  <xs:element name="templates">
+    <xs:complexType>
+      <xs:attribute name="use" use="required" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="defaultdoctype" type="xs:string"/>
+  <xs:element name="metadatageneration">
+    <xs:complexType>
+      <xs:attribute name="use" use="required" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="itemlist">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="item"/>
+        <xs:element ref="hide"/>
+        <xs:element ref="processtitle"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="item">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="select"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="baseItemAttrs"/>
+      <xs:attribute name="multiselect" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:attributeGroup name="baseItemAttrs">
+    <xs:attribute name="from" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="vorlage"/>
+          <xs:enumeration value="werk"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="required" type="xs:boolean"/>
+    <xs:attribute name="isdoctype"/>
+    <xs:attribute name="isnotdoctype"/>
+    <xs:attribute name="ughbinding" type="xs:boolean"/>
+    <xs:attribute name="docstruct" type="xs:NMTOKEN"/>
+    <xs:attribute name="metadata" type="xs:NMTOKEN"/>
+  </xs:attributeGroup>
+  <xs:element name="select">
+    <xs:complexType mixed="true">
+      <xs:attribute name="label" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="processtitle">
+    <xs:complexType mixed="true">
+      <xs:attribute name="isdoctype" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hide">
+    <xs:complexType/>
+  </xs:element>
+  <xs:attributeGroup name="StructTypeMappingAttrs">
+    <xs:attribute name="ughbinding" type="xs:boolean"/>
+    <xs:attribute name="docstruct" use="required" type="xs:NMTOKEN"/>
+    <xs:attribute name="metadata" use="required" type="xs:NMTOKEN"/>
+  </xs:attributeGroup>
+  <xs:element name="tifheader">
+    <xs:complexType>
+      <xs:all>
+        <xs:element ref="monograph"/>
+        <xs:element ref="multivolume"/>
+        <xs:element ref="periodical"/>
+        <xs:element ref="newspaper"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="monograph" type="xs:string"/>
+  <xs:element name="multivolume" type="xs:string"/>
+  <xs:element name="periodical" type="xs:string"/>
+  <xs:element name="newspaper" type="xs:string"/>
+  <xs:element name="dmsImport">
+    <xs:complexType/>
+  </xs:element>
+</xs:schema>

@@ -2,7 +2,7 @@
 #
 # RelaxNG Schema für Kitido.Production Regelsatz
 #
-# Author: David Maus <maus@hab.de>
+# Author: David Maus <maus@hab.de>, Christian Schmiljun <christian.schmiljun@bibliothek.uni-halle.de>
 #
 
 namespace s = "http://purl.oclc.org/dsdl/schematron"
@@ -235,17 +235,16 @@ MetsModsSerializationValueRegExp =
 MetsModsSerializationMetadataMapping =
     element Metadata {
         MetsModsSerializationInternalName
+        & element WriteXPath { WriteXPathContent }
         & (
             (
-                MetsModsSerializationPersonIndicator
-                & element WriteXPath { WriteXPathContent }
+                MetsModsSerializationPersonIndicator                
                 & element FirstnameXPath { WriteXPathContent }
                 & element LastnameXPath { WriteXPathContent }
                 & element DisplayNameXPath { WriteXPathContent }
                 & element IdentifierXPath { WriteXPathContent }
             ) | (
-                element WriteXPath { WriteXPathContent }
-                & element ValueRegExp { text }?
+                element ValueRegExp { text }?
                 & element ValueCondition { text }?
             )
         )
@@ -258,7 +257,7 @@ MetsModsSerializationMetadataGroupMapping =
         & element Metadata {
             MetsModsSerializationInternalName
             & element WriteXPath { WriteXPathContent }
-        }+
+        }+        
     }
 
 WriteXPathContent = text

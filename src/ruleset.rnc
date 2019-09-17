@@ -49,7 +49,7 @@ NameTranslation =
 
 StructTypeDef =
    element DocStrctType {
-      attribute anchor { "true" }?
+      attribute anchor { "true" | "false" | "year" }?
     & Name
     & NameTranslation*
     & AllowedChildStruct*
@@ -90,9 +90,15 @@ AllowedMetadata =
 
 ImportExportDef =
    element Formats {
+      RDF?,
       PicaImport?,
       MetsModsSerialization?
    }
+
+RDF = 
+    element RDF {
+        empty
+    }
 
 PicaImport =
    element PicaPlus {
@@ -201,15 +207,22 @@ MetsModsSerializationValueRegExp =
    element ValueRegExp { text }
 
 MetsModsSerializationMetadataMapping =
-   element Metadata {
-      MetsModsSerializationInternalName
-    & MetsModsSerializationPersonIndicator?
-    & element WriteXPath { WriteXPathContent }
-    & element FirstnameXPath { WriteXPathContent }
-    & element DisplayNameXPath { WriteXPathContent }
-    & element IdentifierXPath { WriteXPathContent }
-    & element ValueRegExp { text }
-    & element ValueCondition { text }
+    element Metadata {
+        MetsModsSerializationInternalName
+        & (
+            (
+                MetsModsSerializationPersonIndicator
+                & element WriteXPath { WriteXPathContent }
+                & element FirstnameXPath { WriteXPathContent }
+                & element LastnameXPath { WriteXPathContent }
+                & element DisplayNameXPath { WriteXPathContent }
+                & element IdentifierXPath { WriteXPathContent }
+            ) | (
+                element WriteXPath { WriteXPathContent }
+                & element ValueRegExp { text }?
+                & element ValueCondition { text }?
+            )
+        )
    }
 
 WriteXPathContent = text

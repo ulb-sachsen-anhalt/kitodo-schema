@@ -12,7 +12,10 @@ start = Preferences
 Preferences =
    element Preferences {
       element debug { "0" | "1" }?,
-      MetadataTypeDef*,
+      (
+        MetadataTypeDef*
+        & GroupTypeDef*
+      ),
       StructTypeDef*,
       ImportExportDef
    }
@@ -46,6 +49,13 @@ NameTranslation =
       attribute name { xsd:language },
       text
    }
+   
+GroupTypeDef =
+    element Group {
+        Name
+        & NameTranslation*
+        & element metadata { xsd:NMTOKEN }+
+    }
 
 StructTypeDef =
    element DocStrctType {
@@ -54,6 +64,7 @@ StructTypeDef =
     & NameTranslation*
     & AllowedChildStruct*
     & AllowedMetadata*
+    & AllowedMetadataGroup*
    }
 
 AllowedChildStruct =
@@ -87,6 +98,12 @@ AllowedMetadata =
       attribute DefaultDisplay { text }?,
       xsd:NMTOKEN
    }
+   
+AllowedMetadataGroup = 
+    element group {
+        attribute num { "*" | "+" | "1o" | "1m" },      
+        xsd:NMTOKEN
+    }
 
 ImportExportDef =
    element Formats {
@@ -102,7 +119,7 @@ RDF =
 
 PicaImport =
    element PicaPlus {
-      ( PicaPlusImportMetadata | PicaPlusImportDocStruct | PicaPlusImportPerson )*
+      ( PicaPlusImportMetadata | PicaPlusImportMetadataGroup | PicaPlusImportDocStruct | PicaPlusImportPerson )*
    }
 
 PicaPlusImportMetadata =
@@ -119,6 +136,14 @@ PicaPlusImportMetadata =
    element Metadata {
       PicaPlusImportMappingElements
    }
+   
+PicaPlusImportMetadataGroup =
+    element MetadataGroup {
+        element picaMainTag { text }
+        & element valueCondition { text }?
+        & element valueRegExp { text }?
+        & Name
+    }
 
 PicaPlusImportPerson =
    [
@@ -175,6 +200,7 @@ MetsModsSerialization =
     & MetsModsSerializationAnchorIdentifierMetadataType?
     & MetsModsSerializationValueRegExp?
     & MetsModsSerializationMetadataMapping*
+    & MetsModsSerializationMetadataGroupMapping*
     & MetsModsSerializationDocStructMapping+
    }
 
@@ -224,6 +250,16 @@ MetsModsSerializationMetadataMapping =
             )
         )
    }
+   
+MetsModsSerializationMetadataGroupMapping = 
+    element Group {
+        MetsModsSerializationInternalName
+        & element WriteXPath { WriteXPathContent }
+        & element Metadata {
+            MetsModsSerializationInternalName
+            & element WriteXPath { WriteXPathContent }
+        }+
+    }
 
 WriteXPathContent = text
 

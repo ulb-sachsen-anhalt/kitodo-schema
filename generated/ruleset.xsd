@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  -*- mode: rnc; -*-
+  
+  RelaxNG Schema für Kitido.Production Regelsatz
+  
+  Author: David Maus <maus@hab.de>, Christian Schmiljun <christian.schmiljun@bibliothek.uni-halle.de>
+  
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="Preferences">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="debug"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="MetadataType"/>
+          <xs:group ref="GroupTypeDef"/>
+        </xs:choice>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="DocStrctType"/>
+        <xs:element ref="Formats"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="debug">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="0"/>
+        <xs:enumeration value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="MetadataType">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Name"/>
+        <xs:element ref="language"/>
+      </xs:choice>
+      <xs:attribute name="type">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="person"/>
+            <xs:enumeration value="identifier"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Name" type="xs:NMTOKEN">
+    <xs:annotation>
+      <xs:documentation>Interner Name des Metadaten- oder Strukturtyps. Der Name wird zur Referenzierung benutzt und muss daher dokumentweit eindeutig sein.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="language">
+    <xs:annotation>
+      <xs:documentation>Übersetzung eines Namens in die über das Attribut @name spezifizierte Sprache.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType mixed="true">
+      <xs:attribute name="name" use="required" type="xs:language"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="GroupTypeDef">
+    <xs:sequence>
+      <xs:element name="Group">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Name"/>
+            <xs:element ref="language"/>
+            <xs:element name="metadata" type="xs:NMTOKEN"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="DocStrctType">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Name"/>
+        <xs:element ref="language"/>
+        <xs:element ref="allowedchildtype"/>
+        <xs:element ref="metadata"/>
+        <xs:element ref="group"/>
+      </xs:choice>
+      <xs:attribute name="anchor">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="true"/>
+            <xs:enumeration value="false"/>
+            <xs:enumeration value="year"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="allowedchildtype" type="xs:NMTOKEN"/>
+  <xs:element name="metadata">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NMTOKEN">
+          <xs:attribute name="num" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:token">
+                <xs:enumeration value="*"/>
+                <xs:enumeration value="+"/>
+                <xs:enumeration value="1o"/>
+                <xs:enumeration value="1m"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+          <xs:attribute name="DefaultDisplay"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="group">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:NMTOKEN">
+          <xs:attribute name="num" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:token">
+                <xs:enumeration value="*"/>
+                <xs:enumeration value="+"/>
+                <xs:enumeration value="1o"/>
+                <xs:enumeration value="1m"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Formats">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="RDF"/>
+        <xs:element minOccurs="0" ref="PicaPlus"/>
+        <xs:element minOccurs="0" ref="METS"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RDF">
+    <xs:complexType/>
+  </xs:element>
+  <xs:element name="PicaPlus">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:group ref="PicaPlusImportMetadata"/>
+        <xs:element ref="MetadataGroup"/>
+        <xs:group ref="PicaPlusImportDocStruct"/>
+        <xs:element ref="Person"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="PicaPlusImportMetadata">
+    <xs:sequence>
+      <xs:element name="Metadata">
+        <xs:complexType>
+          <xs:group ref="PicaPlusImportMappingElements"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="MetadataGroup">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="picaMainTag"/>
+        <xs:element ref="valueCondition"/>
+        <xs:element ref="valueRegExp"/>
+        <xs:element ref="Name"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="picaMainTag" type="xs:string"/>
+  <xs:element name="valueCondition" type="xs:string"/>
+  <xs:element name="valueRegExp" type="xs:string"/>
+  <xs:element name="Person">
+    <xs:complexType>
+      <xs:group ref="PicaPlusImportMappingElements"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="PicaPlusImportDocStruct">
+    <xs:sequence>
+      <xs:element name="DocStruct">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:group ref="PicaPlusImportMappingElements"/>
+            <xs:element ref="picaContent"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="picaContent" type="xs:string"/>
+  <xs:group name="PicaPlusImportMappingElements">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="picaMainTag"/>
+        <xs:element ref="picaSubTag"/>
+        <xs:element ref="valueCondition"/>
+        <xs:element ref="valueRegExp"/>
+        <xs:element ref="Name"/>
+      </xs:choice>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="picaSubTag">
+    <xs:complexType mixed="true">
+      <xs:attribute name="type">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="firstname"/>
+            <xs:enumeration value="lastname"/>
+            <xs:enumeration value="identifier"/>
+            <xs:enumeration value="expansion"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="METS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="class"/>
+        <xs:element ref="NamespaceDefinition"/>
+        <xs:element ref="XPathAnchorQuery"/>
+        <xs:element ref="AnchorIdentifierMetadataType"/>
+        <xs:element ref="ValueRegExp"/>
+        <xs:group ref="MetsModsSerializationMetadataMapping"/>
+        <xs:group ref="MetsModsSerializationMetadataGroupMapping"/>
+        <xs:group ref="MetsModsSerializationDocStructMapping"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="class">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="ugh.fileformats.mets.MetsModsImportExport"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="NamespaceDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="URI"/>
+        <xs:element ref="prefix"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="URI" type="xs:anyURI"/>
+  <xs:element name="prefix" type="xs:NMTOKEN"/>
+  <xs:element name="XPathAnchorQuery" type="xs:string"/>
+  <xs:element name="AnchorIdentifierMetadataType" type="xs:NMTOKEN"/>
+  <xs:element name="ValueRegExp" type="xs:string"/>
+  <xs:group name="MetsModsSerializationMetadataMapping">
+    <xs:sequence>
+      <xs:element name="Metadata">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="InternalName"/>
+            <xs:element ref="WriteXPath"/>
+            <xs:choice>
+              <xs:choice>
+                <xs:element ref="MODSName"/>
+                <xs:element ref="FirstnameXPath"/>
+                <xs:element ref="LastnameXPath"/>
+                <xs:element ref="DisplayNameXPath"/>
+                <xs:element ref="IdentifierXPath"/>
+              </xs:choice>
+              <xs:choice>
+                <xs:element ref="ValueRegExp"/>
+                <xs:element ref="ValueCondition"/>
+              </xs:choice>
+            </xs:choice>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="WriteXPath" type="xs:string"/>
+  <xs:element name="FirstnameXPath" type="xs:string"/>
+  <xs:element name="LastnameXPath" type="xs:string"/>
+  <xs:element name="DisplayNameXPath" type="xs:string"/>
+  <xs:element name="IdentifierXPath" type="xs:string"/>
+  <xs:element name="ValueCondition" type="xs:string"/>
+  <xs:group name="MetsModsSerializationMetadataGroupMapping">
+    <xs:sequence>
+      <xs:element name="Group">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="InternalName"/>
+            <xs:element ref="WriteXPath"/>
+            <xs:element name="Metadata">
+              <xs:complexType>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="InternalName"/>
+                  <xs:element ref="WriteXPath"/>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="MODSName">
+    <xs:simpleType>
+      <xs:restriction base="xs:token">
+        <xs:enumeration value="Person"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="InternalName" type="xs:NMTOKEN"/>
+  <xs:group name="MetsModsSerializationDocStructMapping">
+    <xs:sequence>
+      <xs:element name="DocStruct">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="InternalName"/>
+            <xs:element ref="MetsType"/>
+          </xs:choice>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="MetsType" type="xs:NMTOKEN"/>
+</xs:schema>

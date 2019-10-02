@@ -7,12 +7,14 @@
 #
 
 namespace s = "http://purl.oclc.org/dsdl/schematron"
+namespace xsi = "http://www.w3.org/2001/XMLSchema-instance" 
 
 start = opacCatalogues
 
 opacCatalogues =
    element opacCatalogues {
-      doctypes
+      attribute xsi:noNamespaceSchemaLocation { text }?
+    & doctypes
     & catalogue+
    }
 
@@ -32,7 +34,8 @@ catalogue =
 
 config =
    element config {
-      attribute address { text }
+      attribute scheme { "http" | "https" }?
+    & attribute address { text }
     & attribute database { text }
     & attribute description { text }
     & attribute port { xsd:integer }

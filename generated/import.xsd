@@ -15,7 +15,7 @@
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element ref="doctypes"/>
         <xs:element ref="catalogue"/>
-      </xs:choice>      
+      </xs:choice>
     </xs:complexType>
   </xs:element>
   <xs:element name="doctypes">
@@ -50,7 +50,9 @@
       <xs:attribute name="database" use="required"/>
       <xs:attribute name="description" use="required"/>
       <xs:attribute name="port" use="required" type="xs:integer"/>
+      <xs:attribute name="charset"/>
       <xs:attribute name="ucnf"/>
+      <xs:attribute name="demaskDoubleAmpersand" type="xs:boolean"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="searchFields">

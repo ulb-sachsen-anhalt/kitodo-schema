@@ -39,7 +39,9 @@ config =
     & attribute database { text }
     & attribute description { text }
     & attribute port { xsd:integer }
-    & attribute ucnf { text }?
+    & attribute charset { text }?
+    & attribute ucnf { text }?    
+    & attribute demaskDoubleAmpersand { xsd:boolean }? # ULB spezifische Erweiterung - behebt Probleme in der Opac-Ausgabe mit doppelten Ampersands (Bsp: &amp;lt;Preußen, König&amp;gt; -> &lt;Preußen, König&gt;)     
     & empty
    }
 

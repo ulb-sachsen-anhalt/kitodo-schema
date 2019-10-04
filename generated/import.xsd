@@ -9,7 +9,7 @@
   Author: David Maus <maus@hab.de>, Christian Schmiljun <christian.schmiljun@bibliothek.uni-halle.de>
   
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">  
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">  
   <xs:element name="opacCatalogues">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -128,6 +128,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
+      <xs:attribute name="primaryOutput" type="xs:boolean"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="type">

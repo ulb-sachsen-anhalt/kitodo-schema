@@ -12,6 +12,15 @@
         <sch:rule context="/Preferences/Group/Name">               
             <sch:report test="parent::node()/following-sibling::Group/Name = ." role="fatal">Die Metadatengruppe '<sch:value-of select="."/>' ist doppelt definiert.</sch:report>
         </sch:rule>
+        <sch:rule context="/Preferences/DocStrctType/metadata">               
+            <sch:report test="following-sibling::metadata = ." role="fatal">Das Metadatum '<sch:value-of select="."/>' wird doppelt genutzt. (DocStrctType: <sch:value-of select="parent::node()/Name"/>)</sch:report>
+        </sch:rule>
+        <sch:rule context="/Preferences/DocStrctType/group">               
+            <sch:report test="following-sibling::group = ." role="fatal">Die Metadatengruppe '<sch:value-of select="."/>' wird doppelt genutzt. (DocStrctType: <sch:value-of select="parent::node()/Name"/>)</sch:report>
+        </sch:rule>
+        <sch:rule context="/Preferences/DocStrctType/allowedchildtype">               
+            <sch:report test="following-sibling::allowedchildtype = ." role="fatal">Das Strukturelement '<sch:value-of select="."/>' wird doppelt genutzt. (DocStrctType: <sch:value-of select="parent::node()/Name"/>)</sch:report>
+        </sch:rule>
     </sch:pattern>
     <sch:pattern>        
         <sch:rule context="/Preferences/DocStrctType/metadata">            
